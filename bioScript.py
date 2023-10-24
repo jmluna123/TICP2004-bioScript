@@ -63,7 +63,7 @@ elif n_flags == 1:
     
   route = args[0]
   filename = verify_path(route)
-  is_translate = True
+  is_translate = is_transcript = True
  
 else:
   for arg in args:
@@ -83,7 +83,7 @@ else:
   if route == '':
     print_error("ERROR: There is no route specified")
   if is_verbose and not is_transcript and not is_inverse and not is_translate:
-    is_translate = True
+    is_translate = is_transcript = True
   
 
 #---------- 1 TRANSCRIPTION ---------------#
