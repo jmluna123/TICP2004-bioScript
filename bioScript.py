@@ -243,7 +243,7 @@ for i in chains.keys():
   chain['chain'] = transcript_5_3(chain)
 
 if is_transcript and is_inverse:
-  save_file('tc_' + filename[0] + "_5_3" + filename[1], retro_chains)
+  save_file('tc_' + filename[0] + "_3_5" + filename[1], retro_chains)
   
 if is_transcript:
   save_file('tc_' + filename[0] + filename[1], chains)    
