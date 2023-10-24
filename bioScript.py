@@ -3,13 +3,13 @@ import os
 
 help_flags = ['--help', '-h']
 transcription_flags = ['--transcription', '-tc']
-retrotranscription_flags = ['--retrotranscription', '-rtc']
+inverse_flags = ['--inverse', '-i']
 translation_flags = ['--translation', '-tl']
 verbose_flags = ['--verbose', '-v']
-flags = transcription_flags + retrotranscription_flags + translation_flags + verbose_flags
+flags = transcription_flags + inverse_flags + translation_flags + verbose_flags
 
 is_transcript = False
-is_retrotranscript = False
+is_inverse = False
 is_translate = False
 is_verbose = False
 
@@ -21,8 +21,8 @@ usage: python bioScript.py <route> [ -h help | -v verbose | -tc transcription | 
 Options and arguments:
   -h,   --help \t\t\tShow this help message and exit.
   -v,   --verbose\t\tShow processes messages.
-  -tc,  --transcription\t\tProcess chain only for transcription (5'-3').
-  -rtc, --retrotranscription\tProcess chain only retrotranscription (3'-5').
+  -i,   --inverse\t\tSave the inverse chain of sequences (3'-5').
+  -tc,  --transcription\t\tProcess chain only for transcription or retrotranscription (5'-3').
   -tl,  --translation\t\tProcess RNA chain only for translation.""")
   exit()
 
@@ -63,7 +63,7 @@ elif n_flags == 1:
     
   route = args[0]
   filename = verify_path(route)
-  is_transcript = is_translate = True
+  is_translate = True
  
 else:
   for arg in args:
@@ -72,8 +72,8 @@ else:
         is_transcript = True
       elif arg in translation_flags:
         is_translate = True
-      elif arg in retrotranscription_flags:
-        is_retrotranscript = True
+      elif arg in inverse_flags:
+        is_inverse = True
       elif arg in verbose_flags:
         is_verbose = True
     else:
@@ -82,9 +82,8 @@ else:
   
   if route == '':
     print_error("ERROR: There is no route specified")
-  if is_verbose and not is_transcript and not is_retrotranscript and not is_translate:
-    is_transcript = is_translate = True
-    
+  if is_verbose and not is_transcript and not is_inverse and not is_translate:
+    is_translate = True
   
 
 #---------- 1 TRANSCRIPTION ---------------#
@@ -237,14 +236,14 @@ fastafile.close()
 retro_chains = {}
 for i in chains.keys():
   chain = chains[i]
-  if is_retrotranscript:
+  if is_inverse:
     transcript = transcript_3_5(chain)
     retro_chains[i] = {'header': chain['header'] ,'len': chain['len'] , 'chain': transcript}
   
   chain['chain'] = transcript_5_3(chain)
 
-if is_retrotranscript:
-  save_file('rtc_' + filename[0] + "_5_3" + filename[1], retro_chains)
+if is_transcript and is_inverse:
+  save_file('tc_' + filename[0] + "_5_3" + filename[1], retro_chains)
   
 if is_transcript:
   save_file('tc_' + filename[0] + filename[1], chains)    
