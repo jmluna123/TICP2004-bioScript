@@ -19,6 +19,8 @@ Emplea este script para generar un árbol.
 ```
 git clone https://github.com/jmluna123/bioScript.git
 
+cd .\UPGMA
+
 pip install -r requirements.txt
 ```
 
