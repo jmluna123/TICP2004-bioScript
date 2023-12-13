@@ -17,7 +17,7 @@ Emplea este script para generar un árbol.
 ## 📌 Instalación
 
 ```
-git clone https://github.com/jmluna123/bioScript.git
+git clone https://github.com/jmluna123/TICP2004-bioScript.git
 
 cd .\UPGMA
 
